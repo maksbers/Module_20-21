@@ -2,52 +2,51 @@ using UnityEngine;
 
 public class Interactor : MonoBehaviour
 {
+    [SerializeField] private float _explodeRadius = 7f;
+    [SerializeField] private float _explodeForce = 40f;
+
     [SerializeField] private Camera _camera;
     [SerializeField] private LayerMask _groundMask;
+    private IShooter _exploder;
 
     private IMovable _movable;
-    public Vector3 _groundInteractPoint; 
+    private Vector3 _groundInteractPoint; 
     private Ray _cameraRay;
 
 
+    private void Awake()
+    {
+        _exploder = new Exploder(_explodeRadius, _explodeForce);
+    }
+
     private void Update()
     {
-        _cameraRay = _camera.ScreenPointToRay(Input.mousePosition);
+        _cameraRay = GetCameraRay();
 
         Grab();
         Hold();
         Release();
 
-        Explode();
+        ExplodeProcess();
+    }
+
+    private Ray GetCameraRay()
+    {
+        _cameraRay = _camera.ScreenPointToRay(Input.mousePosition);
+        return _cameraRay;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(_groundInteractPoint, 0.2f);
         Gizmos.DrawRay(_cameraRay.origin, _cameraRay.direction * 100f);
-
     }
 
-    private void Explode()
+    private void ExplodeProcess()
     {
         if (Input.GetMouseButtonDown(1) && _movable == null)
         {
-            if (Physics.Raycast(_cameraRay, out RaycastHit hitInfo, Mathf.Infinity, _groundMask))
-            {
-                _groundInteractPoint = hitInfo.point;
-
-                Collider[] colliders = Physics.OverlapSphere(_groundInteractPoint, 7f);
-
-                foreach(Collider collider in colliders)
-                {
-                    if (collider.TryGetComponent<IDamageable>(out IDamageable damageable))
-                    {
-                        Vector3 direction = (collider.transform.position - _groundInteractPoint).normalized;
-                        damageable.TakeForce(direction, 40f);
-                    }
-                }
-            }
+            _exploder.Shoot(_cameraRay.origin, _cameraRay.direction);
         }
     }
 

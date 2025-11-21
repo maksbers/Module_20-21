@@ -975,6 +975,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f499e89594197d1449f8cf8a697dd2fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _explodeRadius: 7
+  _explodeForceAmount: 40
   _camera: {fileID: 330585545}
   _groundMask:
     serializedVersion: 2
