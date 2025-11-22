@@ -1,13 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
-    private const KeyCode RotateShipLeft = KeyCode.Q;
-    private const KeyCode RotateShipRight = KeyCode.W;
-    private const KeyCode RotateMastLeft = KeyCode.A;
-    private const KeyCode RotateMastRight = KeyCode.S;
+    private const KeyCode RotateShipLeft = KeyCode.A;
+    private const KeyCode RotateShipRight = KeyCode.D;
+    private const KeyCode RotateMastLeft = KeyCode.LeftArrow;
+    private const KeyCode RotateMastRight = KeyCode.RightArrow;
 
     [SerializeField] private Rotator _shipRotator;
     [SerializeField] private Rotator _mastRotator;
