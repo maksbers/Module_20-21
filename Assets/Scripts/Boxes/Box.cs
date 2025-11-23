@@ -2,7 +2,10 @@ using UnityEngine;
 
 public class Box : MonoBehaviour, IMovable, IDamageable
 {
+    [SerializeField] ParticleSystem _damageEffect;
+
     private Rigidbody _rigidbody;
+
 
     private void Awake()
     {
@@ -17,5 +20,15 @@ public class Box : MonoBehaviour, IMovable, IDamageable
     public void TakeForce(Vector3 forceDirection, float forceAmount)
     {
         _rigidbody.AddForce(forceDirection * forceAmount, ForceMode.Impulse);
+        PlayDamageEffect();
+    }
+
+    private void PlayDamageEffect()
+    {
+        if (_damageEffect != null)
+        {
+            ParticleSystem instantiatedEffect = GameObject.Instantiate(_damageEffect, transform.position, Quaternion.identity);
+            instantiatedEffect.Play();
+        }
     }
 }

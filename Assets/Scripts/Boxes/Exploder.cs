@@ -4,12 +4,16 @@ public class Exploder : IShooter
 {
     private float _radius;
     private float _force;
+    ParticleSystem _explosionEffect;
 
-    public Exploder(float radius, float force)
+    public Exploder(float radius, float force, ParticleSystem explosionEffect)
     {
         _radius = radius;
         _force = force;
+        _explosionEffect = explosionEffect;
     }
+
+
 
     public void Shoot(Vector3 origin, Vector3 direction)
     {
@@ -18,6 +22,8 @@ public class Exploder : IShooter
         if (Physics.Raycast(ray, out RaycastHit hitInfo))
         {
             Vector3 interactPoint = hitInfo.point;
+
+            PlayEffect(interactPoint, _explosionEffect);
 
             ExecuteExplosion(interactPoint);
         }
@@ -34,6 +40,15 @@ public class Exploder : IShooter
                 Vector3 directionFromExplosion = (target.transform.position - origin).normalized;
                 damageable.TakeForce(directionFromExplosion, _force);
             }
+        }
+    }
+
+    private void PlayEffect(Vector3 position, ParticleSystem effect)
+    {
+        if (effect != null)
+        {
+            ParticleSystem instantiatedEffect = GameObject.Instantiate(effect, position, Quaternion.identity);
+            instantiatedEffect.Play();
         }
     }
 }
