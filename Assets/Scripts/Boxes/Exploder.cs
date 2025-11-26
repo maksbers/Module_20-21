@@ -6,13 +6,13 @@ public class Exploder : IShooter
     private float _force;
     ParticleSystem _explosionEffect;
 
-    public Exploder(float radius, float force, ParticleSystem explosionEffect)
+
+    public Exploder(float radius, float force, ParticleSystem particlesEffect)
     {
         _radius = radius;
         _force = force;
-        _explosionEffect = explosionEffect;
+        _explosionEffect = particlesEffect;
     }
-
 
 
     public void Shoot(Vector3 origin, Vector3 direction)
@@ -35,7 +35,7 @@ public class Exploder : IShooter
 
         foreach (Collider target in targets)
         {
-            if (target.TryGetComponent<IDamageable>(out IDamageable damageable))
+            if (target.TryGetComponent<IPushable>(out IPushable damageable))
             {
                 Vector3 directionFromExplosion = (target.transform.position - origin).normalized;
                 damageable.TakeForce(directionFromExplosion, _force);

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IDamageable 
+public interface IPushable 
 {
     public void TakeForce(Vector3 forceDirection, float forceAmount);
 }

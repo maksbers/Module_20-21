@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class Box : MonoBehaviour, IMovable, IDamageable
+public class Box : MonoBehaviour, IDraggable, IPushable
 {
-    [SerializeField] ParticleSystem _damageEffect;
+    [SerializeField] ParticleSystem _dustEffect;
 
     private Rigidbody _rigidbody;
 
@@ -25,9 +25,9 @@ public class Box : MonoBehaviour, IMovable, IDamageable
 
     private void PlayDamageEffect()
     {
-        if (_damageEffect != null)
+        if (_dustEffect != null)
         {
-            ParticleSystem instantiatedEffect = GameObject.Instantiate(_damageEffect, transform.position, Quaternion.identity);
+            ParticleSystem instantiatedEffect = GameObject.Instantiate(_dustEffect, transform.position, Quaternion.identity);
             instantiatedEffect.Play();
         }
     }

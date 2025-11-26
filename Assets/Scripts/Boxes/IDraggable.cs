@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IMovable
+public interface IDraggable
 {
     public void Move(Vector3 targetPoint);
 }
